@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>智云 AI 学习助手</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Zhiyun AI Study Assistant</p>
+            <h1>智云 AI 学习助手</h1>
+          </div>
+          <div class="service-state" id="serviceState">检查服务中</div>
+        </header>
+
+        <div class="tool-grid">
+          <section class="input-pane" aria-label="课堂转写输入">
+            <div class="pane-head">
+              <div>
+                <h2>课堂转写</h2>
+                <p>粘贴油猴脚本导出的 Markdown，或直接粘贴语音识别文本。</p>
+              </div>
+              <button class="secondary-button" id="sampleButton" type="button">填入示例</button>
+            </div>
+
+            <label class="field">
+              <span>课程标题</span>
+              <input id="titleInput" type="text" placeholder="例如：数据库系统 第 3 讲">
+            </label>
+
+            <label class="field grow">
+              <span>转写文本</span>
+              <textarea id="transcriptInput" spellcheck="false" placeholder="在这里粘贴语音识别文本..."></textarea>
+            </label>
+
+            <div class="controls">
+              <label class="field compact">
+                <span>AI 模型</span>
+                <select id="providerInput">
+                  <option value="">读取配置中</option>
+                </select>
+              </label>
+              <label class="field compact">
+                <span>整理模式</span>
+                <select id="modeInput">
+                  <option value="comprehensive">完整课堂总结</option>
+                  <option value="outline">学习大纲</option>
+                  <option value="keypoints">重点速记</option>
+                  <option value="exam">考试复习</option>
+                </select>
+              </label>
+              <button class="primary-button" id="summarizeButton" type="button">生成总结</button>
+            </div>
+          </section>
+
+          <section class="output-pane" aria-label="AI 总结输出">
+            <div class="pane-head">
+              <div>
+                <h2>AI 总结</h2>
+                <p>结果会以 Markdown 输出，可复制或下载。</p>
+              </div>
+              <div class="button-row">
+                <button class="secondary-button" id="copyButton" type="button">复制</button>
+                <button class="secondary-button" id="downloadButton" type="button">下载</button>
+              </div>
+            </div>
+
+            <pre id="summaryOutput" class="summary-output">等待生成总结。</pre>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
