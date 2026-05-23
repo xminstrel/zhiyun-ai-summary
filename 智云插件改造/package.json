@@ -1,0 +1,16 @@
+{
+  "name": "zhiyun-ai-study-assistant",
+  "version": "1.0.0",
+  "description": "智云课堂语音识别导出与 AI 学习总结助手",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node scripts/dev.js",
+    "check": "node --check src/server.js && node --check src/summarizer.js && node --check src/config.js && node --check src/prompts.js && node --check public/app.js && node --check 插件.js",
+    "smoke": "node tests/smoke.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
