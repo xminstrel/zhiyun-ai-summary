@@ -6,6 +6,8 @@
   "private": true,
   "scripts": {
     "start": "node src/server.js",
+    "launch": "node scripts/launch.js",
+    "stop": "node scripts/stop.js",
     "dev": "node scripts/dev.js",
     "check": "node --check src/server.js && node --check src/summarizer.js && node --check src/config.js && node --check src/prompts.js && node --check public/app.js && node --check 插件.js",
     "smoke": "node tests/smoke.js"

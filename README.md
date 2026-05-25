@@ -28,6 +28,10 @@
 │  └─ app.js
 ├─ prompts/course-summary.md
 ├─ samples/transcript.md
+├─ 启动智云AI助手.bat
+├─ 后台启动智云AI助手.vbs
+├─ 停止智云AI助手.bat
+├─ 创建桌面快捷方式.bat
 ├─ tests/smoke.js
 ├─ .env.example
 └─ package.json
@@ -56,16 +60,40 @@ DEEPSEEK_MODEL=deepseek-v4-flash
 AI_MOCK=true
 ```
 
-4. 启动服务：
+4. 启动服务。推荐日常直接双击：
+
+```text
+后台启动智云AI助手.vbs
+```
+
+它会在后台启动本地服务，并自动打开：
+
+```text
+http://127.0.0.1:8787
+```
+
+如果想看到服务日志，可以双击：
+
+```text
+启动智云AI助手.bat
+```
+
+如果希望桌面上也有入口，可以双击一次：
+
+```text
+创建桌面快捷方式.bat
+```
+
+也可以在终端里运行：
 
 ```powershell
 npm.cmd start
 ```
 
-5. 打开本地控制台：
+5. 如果需要停止后台服务，双击：
 
 ```text
-http://127.0.0.1:8787
+停止智云AI助手.bat
 ```
 
 6. 安装 `插件.js` 到 Tampermonkey/篡改猴，然后进入智云课堂回放页，打开语音识别/字幕面板，选择 AI 模型，点击页面右下角的“自动 AI 总结”。
@@ -148,6 +176,12 @@ CUSTOM_OUTPUT_TOKEN_PARAM=max_tokens
 
 油猴脚本默认调用完整课堂总结，并会从本地服务读取可用 AI 模型下拉选择。
 
+## 导出到指定文件夹
+
+点击“导出 AI 总结”时，项目会优先调用浏览器的系统保存对话框。你可以在弹出的窗口里选择目标文件夹，也可以修改文件名。
+
+如果当前浏览器不支持系统保存对话框，项目会自动回退到浏览器默认下载目录。推荐使用新版 Chrome 或 Edge。
+
 ## 长文本处理
 
 课程回放经常很长。现在项目默认使用后台任务模式：
@@ -179,7 +213,13 @@ AI_TIMEOUT_MS=300000
 
 ### 油猴脚本提示无法连接本地 AI 服务
 
-确认已运行：
+确认已双击：
+
+```text
+后台启动智云AI助手.vbs
+```
+
+或者已运行：
 
 ```powershell
 npm.cmd start

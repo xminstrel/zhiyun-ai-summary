@@ -162,6 +162,35 @@
     URL.revokeObjectURL(url)
   }
 
+  async function saveMarkdownFile(filename, content) {
+    if (typeof window.showSaveFilePicker === "function") {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [
+            {
+              description: "Markdown 文件",
+              accept: {
+                "text/markdown": [".md"],
+                "text/plain": [".txt"]
+              }
+            }
+          ]
+        })
+        const writable = await handle.createWritable()
+        await writable.write(content)
+        await writable.close()
+        return "picker"
+      } catch (error) {
+        if (error.name === "AbortError") return "cancelled"
+        console.warn("[智云 AI 学习助手] 文件选择器不可用，回退到浏览器下载", error)
+      }
+    }
+
+    downloadFile(filename, content)
+    return "download"
+  }
+
   function setClipboard(content) {
     if (typeof GM_setClipboard === "function") {
       GM_setClipboard(content)
@@ -408,14 +437,22 @@
     showStatus("已复制 AI 总结")
   }
 
-  function downloadSummary() {
+  async function downloadSummary() {
     if (!state.lastSummary) {
       showStatus("还没有 AI 总结，请先点击自动 AI 总结")
       return
     }
 
-    downloadFile(`${safeFilename(state.lastTitle || getPageTitle())}_AI学习总结.md`, state.lastSummary)
-    showStatus("已导出 AI 总结")
+    const filename = `${safeFilename(state.lastTitle || getPageTitle())}_AI学习总结.md`
+    const result = await saveMarkdownFile(filename, state.lastSummary)
+
+    if (result === "picker") {
+      showStatus("已保存 AI 总结到指定位置")
+    } else if (result === "download") {
+      showStatus("浏览器不支持选择文件夹，已保存到默认下载目录")
+    } else {
+      showStatus("已取消导出 AI 总结")
+    }
   }
 
   function showStats() {

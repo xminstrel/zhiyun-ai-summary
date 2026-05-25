@@ -155,19 +155,45 @@ async function copySummary() {
   }, 1200)
 }
 
-function downloadSummary() {
+async function downloadSummary() {
   if (!latestSummary) return
 
   const title = (titleInput.value.trim() || "课堂学习总结")
     .replace(/[\\/:*?"<>|]/g, "_")
     .replace(/\s+/g, "_")
     .slice(0, 80)
+  const filename = `${title}_AI学习总结.md`
+
+  if (typeof window.showSaveFilePicker === "function") {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: filename,
+        types: [
+          {
+            description: "Markdown 文件",
+            accept: {
+              "text/markdown": [".md"],
+              "text/plain": [".txt"]
+            }
+          }
+        ]
+      })
+      const writable = await handle.createWritable()
+      await writable.write(latestSummary)
+      await writable.close()
+      return
+    } catch (error) {
+      if (error.name === "AbortError") return
+      console.warn("文件选择器不可用，回退到浏览器下载", error)
+    }
+  }
+
   const blob = new Blob([latestSummary], { type: "text/markdown;charset=utf-8" })
   const url = URL.createObjectURL(blob)
   const link = document.createElement("a")
 
   link.href = url
-  link.download = `${title}_AI学习总结.md`
+  link.download = filename
   document.body.appendChild(link)
   link.click()
   link.remove()
